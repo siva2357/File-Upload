@@ -1,0 +1,63 @@
+
+<div class="container mb-5 mt-5">
+
+    <table class="table" style="border: 1px solid; width: 100%;">
+      <thead style="border: 1px solid; font-size: 14px;">
+        <tr style="border: 1px solid;">
+          <th style="border: 1px solid; width: 5%;">S.No</th>
+          <th style="border: 1px solid; width: 10%;">Project Image</th>
+          <th style="border: 1px solid; width: 10%;">Project Title</th>
+          <th style="border: 1px solid; width: 15%;">Project Type</th>
+          <th style="border: 1px solid; width: 10%;">Softwares</th>
+          <th style="border: 1px solid; width: 10%;">Tags</th>
+          <th style="border: 1px solid; width: 10%;">Project Description</th>
+          <th style="border: 1px solid; width: 25%;">Actions</th>
+        </tr>
+      </thead>
+      <tbody style="border: 1px solid; font-size: 14px;">
+  
+          <tr style="border: 1px solid;" *ngFor="let project of projects; let i = index">            
+              <td style="border: 1px solid; text-align: center; ">{{ i + 1 }}</td>
+
+              <td style="border: 1px solid; text-align: center;">
+                <img *ngIf="project.file?.url" [src]="project.file.url" alt="Project Image" style="width: 100px; height: auto;">
+              </td>
+              
+              
+              
+              
+              <td style="border: 1px solid; text-align: center;">{{project.projectTitle}}</td>
+              <td style="border: 1px solid; text-align: center;">{{project.projectType}}</td>
+              <td style="border: 1px solid; text-align: center;">{{project.softwares}}</td>
+              <td style="border: 1px solid; text-align: center;">{{project.tags}}</td>
+              <td style="border: 1px solid; text-align: center;">{{project.projectDescription}}</td>
+                  <td style="border: 1px solid;">
+                <div style=" display: flex; justify-content: space-around;">
+                  <button  class="btn btn-sm btn-info" (click)="viewDetails(project)">View</button>
+                  <button class="btn btn-sm btn-danger"(click)="confirmDelete(project)">Delete</button>
+                </div>
+  
+              </td>
+              
+          </tr>
+  
+  
+      </tbody>
+    </table>
+  
+  </div>
+  
+  
+  
+        
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
