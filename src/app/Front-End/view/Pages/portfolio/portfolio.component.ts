@@ -11,6 +11,7 @@ import { ProjectUploadService } from 'src/app/Front-End/core/service/project-upl
 export class PortfolioComponent {
   isPortfolio: boolean = false;
   projects: ProjectUpload[] = [];
+  projectPDF! : ProjectUpload
   categories: string[] = ['All', 'Art Concepts', '3D Environment', '3D Animations', 'Game Development', 'AR/VR'];
   selectedCategory: string = 'All';
 
@@ -74,5 +75,31 @@ export class PortfolioComponent {
   goToManageProjectPage(){
     this.router.navigate(['manage-project']);
   }
+
+
+  private hasValidExtension(url: string, validExtensions: string[]): boolean {
+    const ext = url.split('?')[0].toLowerCase();
+    const extension = ext.split('.').pop() || '';
+    return validExtensions.includes(extension);
+  }
+  
+  isImage(url: string): boolean {
+    return this.hasValidExtension(url, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+  }
+  
+  isVideo(url: string): boolean {
+    return this.hasValidExtension(url, ['mp4', 'webm', 'ogg']);
+  }
+
+  
+  
+
+  
+  getFileExtension(url: string): string {
+    const ext = url.split('?')[0].toLowerCase();
+    return ext.split('.').pop() || 'unknown';
+  }
+
+
 
 }

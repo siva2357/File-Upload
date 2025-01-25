@@ -34,10 +34,6 @@ export class ProjectTableComponent {
   }
 
 
-
-
-
-
   async confirmDelete(project: ProjectUpload) {
     if (!project || !project._id) {
       console.error('Job data is not available');
@@ -67,12 +63,39 @@ export class ProjectTableComponent {
   }
   
 
+// Refactor the helper methods to avoid repetition
 
+// Common method to check file extension
+private hasValidExtension(url: string, validExtensions: string[]): boolean {
+  const ext = url.split('?')[0].toLowerCase();
+  const extension = ext.split('.').pop() || '';
+  return validExtensions.includes(extension);
+}
+
+isImage(url: string): boolean {
+  return this.hasValidExtension(url, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+}
+
+isVideo(url: string): boolean {
+  return this.hasValidExtension(url, ['mp4', 'webm', 'ogg']);
+}
+
+isAudio(url: string): boolean {
+  return this.hasValidExtension(url, ['mp3']);
+}
+
+isPDF(url: string): boolean {
+  return this.hasValidExtension(url, ['pdf']);
+}
+
+getFileExtension(url: string): string {
+  const ext = url.split('?')[0].toLowerCase();
+  return ext.split('.').pop() || 'unknown';
+}
 
  private handleError(error: any, action: string) {
     console.error(`Error ${action}:`, error);
     alert(`Failed to ${action}. Please try again later.`);
   }
-
 
 }

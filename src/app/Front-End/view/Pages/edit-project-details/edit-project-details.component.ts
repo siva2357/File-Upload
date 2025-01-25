@@ -85,7 +85,7 @@ export class EditProjectDetailsComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigateByUrl('manage-projects');
+    this.router.navigateByUrl('manage-project');
   }
 
   openEditMode(): void {

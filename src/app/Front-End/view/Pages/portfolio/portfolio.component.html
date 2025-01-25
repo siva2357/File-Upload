@@ -1,7 +1,19 @@
 <button class="btn btn-primary" (click)="goToUploadPage()">Upload</button>
 <button class="btn btn-primary" (click)="goToManageProjectPage()">Manage</button>
 
+
+
+
+
+
 <div  class="container bg-body-tertiary mt-5 mb-5">
+
+
+
+
+
+
+
 
 
     <div *ngIf="!isPortfolio" class="container mt-5 mb-5">
@@ -27,7 +39,18 @@
             <div class="row" *ngIf="projects.length > 0">
               <div *ngFor="let project of projects" class="col-6 col-md-4 mb-5">
                 <div class="card h-100">
-                  <img [src]="project.file.url" class="card-img-top" alt="{{ project.projectTitle }}" style="height: 200px; object-fit: cover;">
+
+                  
+                  <div *ngIf="isImage(project.file.url)">
+                    <img [src]="project.file.url" class="card-img-top" alt="{{ project.projectTitle }}" alt="Project Image"  style="height: 200px; object-fit: cover;">
+                  </div>
+
+
+                
+                  <div *ngIf="isVideo(project.file.url)">
+                    <video controls [src]="project.file.url" class="card-img-top" alt="Project Image"  style="height: 200px; object-fit: cover;"></video>
+                  </div>
+
                   <div class="card-body">
                     <h5 class="card-title">{{ project.projectTitle }}</h5>
                     <p class="card-text">{{ project.projectDescription }}</p>
@@ -45,7 +68,16 @@
             <div class="row" *ngIf="selectedCategory !== 'All' && projectsByCategory[category] && projectsByCategory[category].length > 0">
               <div *ngFor="let project of projectsByCategory[category]" class="col-6 col-md-4 mb-5">
                 <div class="card h-100">
-                  <img [src]="project.file.url" class="card-img-top" alt="{{ project.projectTitle }}" style="height: 200px; object-fit: cover;">
+
+                  <div *ngIf="isImage(project.file.url)">
+                    <img [src]="project.file.url" class="card-img-top" alt="{{ project.projectTitle }}" alt="Project Image"  style="height: 200px; object-fit: cover;">
+                  </div>
+                
+                  <div *ngIf="isVideo(project.file.url)">
+                    <video controls [src]="project.file.url" class="card-img-top" alt="Project Image"  style="height: 200px; object-fit: cover;"></video>
+                  </div>
+
+
                   <div class="card-body">
                     <h5 class="card-title">{{ project.projectTitle }}</h5>
                     <p class="card-text">{{ project.projectDescription }}</p>

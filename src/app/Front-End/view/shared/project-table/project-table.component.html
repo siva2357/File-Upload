@@ -20,11 +20,27 @@
               <td style="border: 1px solid; text-align: center; ">{{ i + 1 }}</td>
 
               <td style="border: 1px solid; text-align: center;">
-                <img *ngIf="project.file?.url" [src]="project.file.url" alt="Project Image" style="width: 100px; height: auto;">
+
+                <div *ngIf="isImage(project.file.url)">
+                  <img [src]="project.file.url" alt="Project Image" width="200px" height="auto">
+                </div>
+              
+                <div *ngIf="isVideo(project.file.url)">
+                  <video controls [src]="project.file.url" width="200px" height="auto"></video>
+                </div>
+              
+                <div *ngIf="isPDF(project.file.url)">
+
+                   <p>{{project.file.fileName}}</p><a [href]="project.file.url"   target="_blank"  class="pdf-link"><i class="bi bi-download" style="font-size: 1.5rem;"></i></a>
+                </div>
+
+
+  
+                <div *ngIf="!isImage(project.file.url) && !isVideo(project.file.url) && !isPDF(project.file.url)">
+                  <p>Unsupported media type: {{ getFileExtension(project.file.url) }}</p>
+                </div>
+              
               </td>
-              
-              
-              
               
               <td style="border: 1px solid; text-align: center;">{{project.projectTitle}}</td>
               <td style="border: 1px solid; text-align: center;">{{project.projectType}}</td>

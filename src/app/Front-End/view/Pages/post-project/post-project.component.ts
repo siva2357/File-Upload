@@ -5,6 +5,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ProjectUpload } from 'src/app/Front-End/core/model/project.model';
 import { ProjectUploadService } from 'src/app/Front-End/core/service/project-upload.service';
 import { Router } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-project',
@@ -19,7 +20,8 @@ export class PostProjectComponent implements OnInit {
   errorMessage = '';
   ifPreview = false;
   uploadedFileData: { fileName: string; url: string; filePath: string } | null = null;
-  previewURL: string | null = null; // For the image preview
+  // previewURL: string | null = null; // For the image preview
+  previewURL: SafeResourceUrl | null = null;
   fileRef: any; // Firebase reference for file deletion
   fileType: string | null = null; // Store the file type (image, video, pdf, audio, etc.)
   fileUploadProgress: Observable<number | undefined> | undefined;
@@ -29,7 +31,8 @@ export class PostProjectComponent implements OnInit {
     private fb: FormBuilder,
     private storage: AngularFireStorage,
     private projectUploadService: ProjectUploadService,
-    private router: Router
+    private router: Router,
+    private domSanitizer: DomSanitizer
   ) {}
 
 
@@ -55,12 +58,17 @@ export class PostProjectComponent implements OnInit {
   }
 
   uploadFile(event: any) {
-    const file = event.target.files[0];
+    const file = event.target.files && event.target.files[0];
     if (file) {
+
+
+ 
       const filePath = `projects/${file.name}`;
       const fileRef = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, file);
-      this.previewURL = URL.createObjectURL(file);
+      // this.previewURL = URL.createObjectURL(file);
+      this.previewURL = this.domSanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
+
       this.fileType = this.getFileType(file);
 
       this.fileUploadProgress = task.percentageChanges();
@@ -87,7 +95,9 @@ export class PostProjectComponent implements OnInit {
           this.errorMessage = 'File upload failed. Please try again.';
         }
       });
+
     }
+
   }
 
 
@@ -141,13 +151,16 @@ export class PostProjectComponent implements OnInit {
       this.isSubmitting = true;
       this.projectUploadService.createProject(projectData).subscribe({
         next: () => {
-          this.projectUploadForm.reset();
+          this.projectUploadForm.reset({
+            projectType : ''
+          });
           this.uploadedFileData = null;
           this.isSubmitting = false;
           this.previewURL = null;
           this.ifPreview = false;
           this.uploadComplete= false;
           this.fileUploadProgress = undefined;
+
         },
         error: (err) => {
           console.error('Error submitting project:', err);
